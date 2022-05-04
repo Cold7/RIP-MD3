@@ -151,6 +151,7 @@ def cdUI(outputFolder,backend):
                             graphPath = outputFolder + "/RIP-MD_Results/Graphs/consensus.gml" # Now RIP-MD always saves a consensus.gml file for this purpose.
                             grafo = nx.read_gml(graphPath)
                             print("Loaded graph from " + graphPath)
+                            continue # fixed after sending final
                         except TypeError:
                             raise BadCommand(command,"no output folder specified at startup.")
                         except FileNotFoundError:
@@ -387,6 +388,8 @@ def cdUI(outputFolder,backend):
                                         "Dendrogram saved as '" + dendPath + "'\n")
                         except FileNotFoundError:
                             print("Warning: couldn't save figure. No such file or directory: '" + dendPath + "'.")
+                        except:
+                            raise BadCommand(command,"couldn't save figure.") # fixed after sending final
                     if show:
                         plt.show()
 
