@@ -1,0 +1,80 @@
+Hola, te dejo algo de info por si te sirve.
+
+Todo debería correr bien en Python 3.6 o superior (yo lo probé con 3.8.10). La razón principal es que utilizo para la salida de girvanNewman el hecho de que, desde Python 3.6, los diccionarios mantienen el orden en el que se agregan las entradas (eso entiendo que se va a mantener https://mail.python.org/pipermail/python-dev/2017-December/151283.html).
+
+Puedes correr el módulo de detección de comunidades como
+python3 main.py -DC -O resultados
+y cargará automáticamente un grafo que está guardado ahí simulando como si hubiera salido de correr RIP-MD.
+
+Además, puedes usar 'load' para cargar cualquier GML.
+
+También puedes correr varios comandos secuencialmente en una línea si los separas con punto y coma ";".
+Ej:
+load; girvanNewman -i ca s -t 95; dendrogram -k 3 -c colorful -j linear
+
+Hay una excepción (BadCommand) que agregué en commDetUI.py que luego se maneja y sirve para avisar al usuario sobre un comando erróneo. Le puedes dar como argumento una string con el comando y una con un mensaje para el usuario. Así la UI no se rompe, en general, por mal uso.
+
+El programa mantiene un archivo 'CDhistory.log' con un registro de dónde se han guardado archivos. Además, si ocurre un error que no se maneja, guarda la salida del error en 'CDerror.log'.
+
+Te adjunto los comandos con una explicación breve de uso.
+
+
+exit
+Termina la sesión.
+
+
+clear
+Limpia la pantalla.
+
+
+load [path]
+Carga el grafo consensus.gml en -O, o carga el GML en path.
+
+
+where
+Indica la ubicación del grafo cargado actualmente.
+
+
+girvanNewman [-i ca s rr H ss cp pp c v][w] [-t tiempo]
+Corre girvanNewman filtrando interacciones (opcionalmente agregando pesos) y por tiempo.
+
+Ej:
+girvanNewman -i ca rr H pp v -t 95 # Sin pesos
+
+girvanNewman -i H 3 ca 2 pp v -t 95 # Con pesos, aquellos no especificados son tomados como 1.
+
+
+girvanNewman -k commNumber [-s path]
+Una vez corrido girvanNewman, usas este para encontrar commNumber comunidades y opcionalmente elegir cómo se guarda (por defecto 'GNkCommGraph.gml').
+
+
+girvanNewman -b [-s path]: Una vez corrido girvanNewman, encuentra la mejor división en términos de modularidad y la guarda. Opcionalmente se puede especificar una ubicación distinta a la por defecto ('GNbestModGraph.gml'), igual que con -k.
+
+Para poder graficar el resultado de -b, también reporta el número de comunidades que maximiza la modularidad. Así, después se pueden graficar usando dendrogram -t numCommReportado. Esto funciona ya que girvanNewman da una división única por cada número posible de comunidades.
+
+
+dendrogram [-n] [-s [savepath]] [-j jumpfunc] [-c coloropt] [-t thresholdOrcommnumber] [-d dpi] [-z xsize,ysize] [-nb]
+
+Dibuja el dendrograma. Las opciones son
+
+-n No mostrar el gráfico.
+-s Guardar el gráfico (por defecto como 'dendrogram.svg').
+-j Definir función de salto (constant, linear, sqrt). Por defecto es sqrt.
+-c Opción de coloreo si se usa -t (simple, alternate, colorful).
+-t Si está en [0,1) considera como comunidad los clusters que están en el 100t%. Si es un entero positivo, busca ese número de comunidades si se puede. Si no, lo cambia por el límite más cercano.
+-d Definir DPI para figura.
+-z Definir tamaño de la figura.
+-nb Hacer transparente el fondo fuera del marco del gráfico (sirve para poner los gráficos en documentos).
+más bajo del gráfico.
+
+
+labelProp [-i ca s rr H ss cp pp c v][w] [-t time] [-c setOfNodes] [-f] [-s path] [-n] [-r]
+
+Corre el algoritmo de propagación de etiquetas. Las opciones son
+
+-i, -t Igual que para girvanNewman.
+-c Conjunto de nodos centrales (Ideal usar notación de Python aunque basta con que los nombres estén separados por comas y que no tengan carácteres del conjunto {" ","\"","'","{","}","(",")","[","]",","}).
+-f Fijar etiquetas de los nodos centrales.
+-s Especificar dónde guardar el grafo (por defecto 'labelPropGraph.gml')
+-n En vez de usar los nombres de los nodos como etiquetas, usar una enumeración.
+-r Quitar nodos aislados.
