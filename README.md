@@ -1,5 +1,5 @@
 # RIP-MD3
-RIP-MD to be used under python3.
+RIP-MD to be used under python3. Upgrated version thanks to Karim Saud (ksaud at dim.uchile.cl) and J. Sebastian Contreras-Riquelme (contrerasriquelme.sebastian at gmail.com).
 
 To perform their function, proteins adopt a three dimensional structure that is mainly determined by non-covalent interactions. The structure of a protein is not static, residues may undergo conformational rearrangements, and in doing so, create, stabilize or break non-covalent interactions. Molecular Dynamics (MD) is a computational technique widely used to simulate these movements at atomic resolution. However, it is very difficult to gather relevant structural and functional information from MD simulations given the data-intensive nature of the technique. Consequently, several tools are often required to perform these highly complex analyses. Among these are Residue Interaction Networks (RINs), which have been used to facilitate the study of static protein structures. In a RIN, nodes represent Amino Acids (AAs) and the connections between nodes depict the non-covalent interactions that occur in the three dimensional structure of the protein. For this reason, we created RIP-MD, a tool that create RINs for a protein structure.
 
