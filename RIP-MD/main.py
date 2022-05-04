@@ -124,17 +124,17 @@ parser.add_argument("-gf","--gformat", help="Format for the output graphs. Optio
 parser.add_argument("-pc","--pearson_corr",help="Calculate Pearson Correlation between residues interactions", action="store_true")
 parser.add_argument("-p","--plot_pearson", help="generate plots for computed correlations", action="store_true")
 #options to save frame
-parser.add_argument("-sf","--separation_frame", help="frame separation to compute interactions. Default:0",default="1")
+parser.add_argument("-sf","--separation_frame", help="frame separation to compute interactions. Default:1",default="1") # fixed after sending final
 parser.add_argument("-fs","--frame_start", help="frame number to start frame extraction. Default:0",default="0")
 parser.add_argument("-fe","--frame_end", help="frame number to finich frame extraction. Default: last frame (value -1)",default="-1")
 parser.add_argument("-rf","--reference_frame",help="Reference frame to display interactions. If your reference frame does not exist, the last frame will be used.")
 
-# Option to keep the temporary files (without changing the directory). Might prove useful for debugging or rerunning the program with the same frames.
+# Option to keep the temporary files. Might prove useful for debugging or rerunning the program. It renames temp folder to 'temp'.
 parser.add_argument("-KT","--keep_temp", help="Keep temporary files folder.",action="store_true")
-# Option to use the frames extracted in a previous run of RIP-MD, if they were saved with -KT.
+# Option to use previous run of RIP-MD to avoid extracting frames.
 parser.add_argument("-UPF","--use_previous_frames", dest="upf",help="Needs a previous succesful run of RIP-MD with the -KT option. It uses the same extracted frames as the previous run. Needs same PSF and DCD file and the temp folder unchanged.",action="store_true")
 
-# Options to start community detection interactive UI.
+# Options to detect community structure in graphs
 parser.add_argument("-DC","--detect_communities",dest="dc",help="Interactive interface for community detection.",action="store_true")
 
 args = parser.parse_args()
