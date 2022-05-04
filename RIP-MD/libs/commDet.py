@@ -213,8 +213,11 @@ def modularity(G,label="community"):
     for edge in G.edges(data=False):
         i = communityDict[G.nodes[edge[0]][label]]
         j = communityDict[G.nodes[edge[1]][label]]
-        E[i,j] += 1
-        E[j,i] += 1
+        if i==j: # fixed after sending final
+            E[i, j] += 1
+        else:
+            E[i,j] += 1
+            E[j,i] += 1
     E = E / len(G.edges)
 
     return np.trace(E) - np.sum(E @ E)
